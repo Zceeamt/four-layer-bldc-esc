@@ -67,4 +67,4 @@ The design uses 0.15 mm clearance and 0.3 mm vias on 0.6 mm pads, keeping it com
 
 Power electronics, three-phase bridges, gate-driver design, MOSFET selection, sensorless BLDC control, current and voltage sensing, four-layer PCB layout, thermal design, KiCad and design for manufacture.
 
-> This repository documents the completed hardware design. Native KiCad design files can be added after publication cleanup.
+> This repository documents the completed schematic and four-layer PCB design; fabrication and hardware validation are outside the current project scope.
