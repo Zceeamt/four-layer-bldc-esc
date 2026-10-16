@@ -1,22 +1,24 @@
-# Four-Layer Sensorless BLDC Electronic Speed Controller
+# AM32 Sensorless BLDC ESC — Four-Layer PCB Layout
 
-A four-layer electronic speed-controller design for small unmanned aircraft, built around an STM32F051 microcontroller, a TI DRV8300 three-phase gate driver and a six-MOSFET bridge.
+A four-layer PCB implementation of the AM32 sensorless ESC reference design, built around an STM32F051 microcontroller, TI DRV8300 three-phase gate driver and six-MOSFET bridge.
 
 [View the full interactive project page](https://zceeamt.github.io/#esc)
 
 ![ESC top render](docs/images/render-top.jpg)
 
-## Overview
+## Scope and contribution
 
-The controller was designed in KiCad to drive a three-phase brushless DC motor without Hall sensors. The STM32 performs commutation using back-EMF feedback, while dedicated circuits measure phase current and battery voltage. The schematic and four-layer PCB layout are complete.
+The electrical architecture follows the AM32 reference schematic; I did not originate the schematic. My contribution was translating that architecture into a manufacturable four-layer KiCad layout and resolving the placement, high-current routing, mixed-signal separation, grounding and thermal constraints around the power stage and control circuitry.
+
+The completed layout incorporates an STM32F051, DRV8300 gate driver, six-MOSFET three-phase bridge, back-EMF network, current sensing and battery-voltage monitoring. This repository documents design work only; the PCB has not been fabricated or validated in hardware.
 
 ## Power stage
 
-Six **Nexperia PSMN5R2-60YL 60 V MOSFETs** form three half-bridges. The **DRV8300** supplies the high-side and low-side gates, with bootstrap capacitors for the high-side channels and 20 Ω gate resistors to control switching edges and ringing.
+In the AM32 reference architecture, six **Nexperia PSMN5R2-60YL 60 V MOSFETs** form three half-bridges. The **DRV8300** supplies the high-side and low-side gates, with bootstrap capacitors for the high-side channels and 20 Ω gate resistors to control switching edges and ringing.
 
 Seven 47 µF capacitors provide a low-impedance reservoir close to the bridge for its pulsed current demand.
 
-## Sensorless control and measurements
+## Reference control and measurement architecture
 
 - Each phase voltage is attenuated into the STM32 ADC.
 - A resistor network produces a virtual neutral reference.
@@ -29,7 +31,7 @@ Seven 47 µF capacitors provide a low-impedance reservoir close to the bridge fo
 
 ![ESC schematic](docs/images/schematic.jpg)
 
-## PCB layout
+## Four-layer PCB implementation
 
 The power stage occupies the top side and the control circuitry the underside. This separates high-dv/dt switching nodes from the sensitive sensing and control paths. Battery and phase currents use wide copper pours, while an array of 0.2 mm thermal vias beneath the gate driver's exposed pad conducts heat into the internal planes.
 
@@ -61,10 +63,12 @@ The design uses 0.15 mm clearance and 0.3 mm vias on 0.6 mm pads, keeping it com
 | Bulk capacitance | Seven 47 µF capacitors |
 | Interfaces | Throttle, telemetry and SWD |
 | PCB | Four layers, 0.15 mm clearance, 0.3/0.6 mm vias |
-| Status | Schematic and PCB design complete |
+| Source architecture | AM32 reference schematic |
+| Contribution | Component placement and four-layer PCB routing |
+| Status | Layout complete; not fabricated or hardware-tested |
 
 ## Skills demonstrated
 
-Power electronics, three-phase bridges, gate-driver design, MOSFET selection, sensorless BLDC control, current and voltage sensing, four-layer PCB layout, thermal design, KiCad and design for manufacture.
+High-current PCB routing, mixed-signal partitioning, four-layer stack-up, grounding, thermal-via design, KiCad and design for manufacture.
 
-> This repository documents the completed schematic and four-layer PCB design; fabrication and hardware validation are outside the current project scope.
+> This repository documents my PCB-layout implementation of the AM32 reference schematic; it does not claim authorship of the circuit architecture or completed hardware validation.
